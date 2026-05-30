@@ -1,0 +1,91 @@
+<form
+  [formGroup]="userForm"
+  class="grid grid-cols-1 md:grid-cols-2 gap-4 mx-8"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="col-span-full">
+    <div class="flex justify-between">
+      <h1 class="text-2xl ml-8 font-bold">
+        {{ user().id === 'new' ? 'Crear Usuario' : 'Editar Usuario' }}
+      </h1>
+      <button class="btn btn-soft btn-secondary" [disabled]="wasSaved()" type="submit">
+        @if (wasSaved()) {
+          <span class="loading loading-spinner loading-sm"></span>
+        }
+        Guardar
+      </button>
+    </div>
+    <div class="divider"></div>
+  </div>
+  <div class="col-span-1">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Nombre</legend>
+      <input
+        class="input"
+        [class.border-red-500]="userForm.get('name')?.errors ?? false"
+        formControlName="name"
+        type="text"
+        placeholder="nombre"
+      />
+      <form-error-label [control]="userForm.get('name')!" />
+    </fieldset>
+  </div>
+  <div class="col-span-1">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Apellido</legend>
+      <input
+        class="input"
+        [class.border-red-500]="userForm.get('lastname')?.errors ?? false"
+        formControlName="lastname"
+        type="text"
+        placeholder="Apellido"
+      />
+      <form-error-label [control]="userForm.get('lastname')!" />
+    </fieldset>
+  </div>
+  <div class="col-span-1">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Correo</legend>
+      <input
+        class="input"
+        [class.border-red-500]="userForm.get('email')?.errors ?? false"
+        formControlName="email"
+        type="email"
+        placeholder="Correo"
+      />
+      <form-error-label [control]="userForm.get('email')!" />
+    </fieldset>
+  </div>
+  <div class="col-span-1">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Nombre de Usuario</legend>
+      <input
+        class="input"
+        [class.border-red-500]="userForm.get('username')?.errors ?? false"
+        formControlName="username"
+        type="text"
+        placeholder="Nombre de Usuario"
+      />
+      <form-error-label [control]="userForm.get('username')!" />
+    </fieldset>
+  </div>
+  <div class="col-span-1">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Contraseña</legend>
+      <input
+        class="input"
+        [class.border-red-500]="userForm.get('password')?.errors ?? false"
+        formControlName="password"
+        type="password"
+        placeholder="Contraseña"
+      />
+      <form-error-label [control]="userForm.get('password')!" />
+    </fieldset>
+  </div>
+</form>
+
+@if (wasSaved()) {
+  <div class="alert alert-success fixed bottom-4 right-4 w-80 animate-fadeIn">
+    <span>Datos actualizados correctamente</span>
+  </div>
+}

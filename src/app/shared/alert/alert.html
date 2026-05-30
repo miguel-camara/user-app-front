@@ -1,0 +1,154 @@
+<div
+  class="fixed inset-0 bg-gray-400/20 flex justify-center items-center z-50"
+  (click)="onBackdropClick()"
+>
+  <div
+    class="bg-gray-800 p-[24px] rounded-lg min-w-[320px] max-w-[500px] shadow-2xl animate-zoomIn"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex gap-3" [class.flex-col]="config().position === 'column'">
+      <div
+        class="rounded-full flex items-center justify-center m-auto p-2"
+        [class]="{
+          'bg-success': config().type === 'success',
+          'bg-error': config().type === 'error',
+          'bg-info': config().type === 'info',
+          'bg-warning': config().type === 'warning',
+          'bg-[#8b5cf6]': config().type === 'question',
+          'w-[70px]': config().position === 'column',
+          'h-[70px]': config().position === 'column',
+          'w-[55px]': config().position === 'row',
+          'h-[55px]': config().position === 'row',
+        }"
+      >
+        @switch (config().type) {
+          @case ('success') {
+            <!-- ✔️ -->
+            <svg
+              class="animate-fadeIn"
+              xmlns="http://www.w3.org/2000/svg"
+              width="2.5em"
+              height="2.5em"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="currentColor"
+                d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z"
+              />
+            </svg>
+          }
+
+          @case ('error') {
+            <!-- ❌ -->
+            <svg
+              class="animate-fadeIn"
+              xmlns="http://www.w3.org/2000/svg"
+              width="2.5em"
+              height="2.5em"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="currentColor"
+                d="M13 19.95q0 .425-.3.738t-.725.312q-1.525-.025-2.9-.488T6.45 19.075q-1.125-.875-1.925-2.05t-1.2-2.6q-.125-.4.1-.75t.625-.475t.75.088t.475.612q.3 1.125.95 2.063t1.525 1.612q.9.7 2 1.063t2.225.362q.425 0 .725.275t.3.675m5.5-1.025L17.1 20.3q-.275.275-.687.288T15.7 20.3q-.275-.275-.275-.7t.275-.7l1.4-1.4l-1.4-1.4q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l1.4 1.4l1.4-1.4q.275-.275.688-.287t.712.287q.275.275.275.7t-.275.7l-1.375 1.4l1.375 1.4q.275.275.288.688t-.288.712q-.275.275-.7.275t-.7-.275zM12 5q-1.725 0-3.225.8T6.25 8H8q.425 0 .713.288T9 9t-.288.713T8 10H4q-.425 0-.712-.288T3 9V5q0-.425.288-.712T4 4t.713.288T5 5v1.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.7t2.862 1.925q1 1 1.675 2.3t.875 2.775q.05.425-.187.763t-.663.387t-.762-.187t-.388-.663q-.175-1.15-.675-2.15t-1.3-1.8q-.95-.95-2.212-1.5T12 5m1 6.6l1.2 1.2q.35.35.313.738t-.313.662t-.662.313t-.738-.313l-1.5-1.5q-.15-.15-.225-.337T11 11.975V8q0-.425.288-.712T12 7t.713.288T13 8z"
+              />
+            </svg>
+          }
+
+          @case ('warning') {
+            <!-- ❕ -->
+            <svg
+              class="animate-fadeIn"
+              xmlns="http://www.w3.org/2000/svg"
+              width="2.5em"
+              height="2.5em"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="currentColor"
+                d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3zm4.913 6.4Q13 20.1 13 18q0-2.075 1.463-3.537T18 13t3.538 1.463T23 18q0 2.1-1.463 3.55T18 23t-3.537-1.45M18 21q.2 0 .35-.15t.15-.35t-.15-.35T18 20t-.35.15t-.15.35t.15.35t.35.15m0-2q.2 0 .35-.15t.15-.35v-3q0-.2-.15-.35T18 15t-.35.15t-.15.35v3q0 .2.15.35T18 19"
+              />
+            </svg>
+          }
+
+          @case ('question') {
+            <!-- ❔ -->
+            <svg
+              class="animate-fadeIn"
+              xmlns="http://www.w3.org/2000/svg"
+              width="2.5em"
+              height="2.5em"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="currentColor"
+                d="M14.6 8.075q0-1.075-.712-1.725T12 5.7q-.725 0-1.312.313t-1.013.912q-.4.575-1.088.663T7.4 7.225q-.35-.325-.387-.8t.237-.9q.8-1.2 2.038-1.862T12 3q2.425 0 3.938 1.375t1.512 3.6q0 1.125-.475 2.025t-1.75 2.125q-.925.875-1.25 1.363T13.55 14.6q-.1.6-.513 1t-.987.4t-.987-.387t-.413-.963q0-.975.425-1.787T12.5 11.15q1.275-1.125 1.688-1.737t.412-1.338M12 22q-.825 0-1.412-.587T10 20t.588-1.412T12 18t1.413.588T14 20t-.587 1.413T12 22"
+              />
+            </svg>
+          }
+
+          @default {
+            <!-- 𝒊 -->
+            <svg
+              class="animate-fadeIn"
+              xmlns="http://www.w3.org/2000/svg"
+              width="2.5em"
+              height="2.5em"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="currentColor"
+                d="M10.588 6.413Q10 5.825 10 5t.588-1.412T12 3t1.413.588T14 5t-.587 1.413T12 7t-1.412-.587m.35 14.15q-.438-.438-.438-1.063v-9q0-.625.438-1.062T12 9t1.063.438t.437 1.062v9q0 .625-.437 1.063T12 21t-1.062-.437"
+              />
+            </svg>
+          }
+        }
+      </div>
+
+      <div>
+        <h2
+          [class.text-center]="config().position === 'column'"
+          class="text-base font-semibold text-white mt-3 mb-1"
+        >
+          {{ config().title }}
+        </h2>
+
+        <p [class.text-center]="config().position === 'column'" class="text-sm text-gray-400">
+          {{ config().message }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="flex gap-3 mt-5"
+      [class.justify-center]="config().position === 'column'"
+      [class.justify-end]="config().position === 'row'"
+    >
+      @if (config().showCancelButton) {
+        <button class="btn btn-neutral" (click)="cancel.emit()">
+          {{ config().cancelText || 'Cancelar!!' }}
+        </button>
+      }
+
+      @if (config().showConfirmButton !== false) {
+        <button
+          class="text-white btn"
+          [class]="{
+            'btn-success': config().type === 'success',
+            'btn-error': config().type === 'error',
+            'btn-info': config().type === 'info',
+            'btn-warning': config().type === 'warning',
+            'bg-[#8b5cf6]': config().type === 'question',
+          }"
+          (click)="confirm.emit()"
+        >
+          {{ config().confirmText || 'Aceptar' }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

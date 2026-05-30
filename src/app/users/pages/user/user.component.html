@@ -1,0 +1,40 @@
+@if (userResource.hasValue()) {
+  <h3 class="text-3xl text-center font-bold">{{ title() }}</h3>
+
+  <div class="flex justify-end">
+    <button class="btn btn-primary my-3 mr-5" [routerLink]="['/users/new']">Crear Usuario</button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>lastname</th>
+          <th>email</th>
+          <th>username</th>
+          <th>remove</th>
+          <th>update</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of userResource.value(); track $index) {
+          <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+              <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">remove</button>
+            </td>
+            <td>
+              <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id]">update</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else if (userResource.isLoading()) {
+  <app-loading />
+}
