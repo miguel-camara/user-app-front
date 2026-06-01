@@ -5,19 +5,25 @@ import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
 import { Loading } from '../../../shared/loading/loading';
 import { firstValueFrom } from 'rxjs';
+import { PaginationService } from '../../shared/pagination/pagination.service';
+import { Pagination } from '../../shared/pagination/pagination';
 
 @Component({
   selector: 'user',
-  imports: [RouterLink, Loading],
+  imports: [RouterLink, Loading, Pagination],
   templateUrl: './user.component.html',
 })
 export class UserComponent {
   alertService = inject(AlertService);
   userService = inject(UserService);
+  paginationService = inject(PaginationService);
 
   userResource = rxResource({
-    stream: () => {
-      return this.userService.findAll();
+    params: () => ({
+      page: this.paginationService.currentPage() - 1,
+    }),
+    stream: ({ params }) => {
+      return this.userService.findAll(params.page);
     },
   });
 
@@ -37,7 +43,6 @@ export class UserComponent {
     });
     if (res) {
       const r = await firstValueFrom(this.userService.deleteById(id));
-      console.log(r);
 
       this.alertService.open({
         type: 'success',

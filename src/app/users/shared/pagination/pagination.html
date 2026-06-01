@@ -1,0 +1,18 @@
+<!-- checked="checked" -->
+<div class="flex justify-center join space-x-2">
+  @for (page of getPagesList(); track page) {
+    <input
+      title="Page"
+      class="join-item btn btn-square"
+      [checked]="page - 1 === activePage()"
+      type="radio"
+      name="options"
+      [aria-label]="page"
+      [queryParams]="{ page: page }"
+      (click)="activePage.set(page)"
+      [routerLink]="[]"
+    />
+  } @empty {
+    <p>No hay páginas</p>
+  }
+</div>

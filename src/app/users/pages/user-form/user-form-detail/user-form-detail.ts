@@ -27,7 +27,7 @@ export class UserFormDetail {
     name: ['', [Validators.required, Validators.minLength(3)]],
     lastname: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
-    username: ['', [Validators.required, Validators.minLength(5)]],
+    username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
     password: ['', [Validators.required, Validators.minLength(5)]],
   });
 
@@ -50,25 +50,37 @@ export class UserFormDetail {
       ...(formValue as any),
     };
 
-    console.log(userLike);
-
-    this.wasSaved.set(true);
-
     if (this.user().id === 'new') {
       // Crear Product
-      const user = await firstValueFrom(this.userService.create(userLike));
-      await this.alertService.open({
-        type: 'success',
-        showCancelButton: false,
-        showConfirmButton: false,
-        message: 'Creado con exito',
-        title: 'Creado',
-        autoClose: true,
-        timer: 500,
+
+      this.userService.create(userLike).subscribe({
+        next: (user) => {
+          this.wasSaved.set(true);
+          this.alertService.open({
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            message: 'Creado con exito',
+            title: 'Creado',
+            autoClose: true,
+            timer: 500,
+          });
+          this.router.navigate(['/users', user.id]);
+        },
+        error: (err) => {
+          this.alertService.open({
+            type: 'error',
+            showCancelButton: false,
+            showConfirmButton: true,
+            message: err,
+            title: 'Error',
+          });
+        },
       });
-      this.router.navigate(['/users', user.id]);
     } else {
       // Actualizar Product
+      this.wasSaved.set(true);
+
       await firstValueFrom(this.userService.update(userLike, this.user().id!));
       await this.alertService.open({
         type: 'success',
