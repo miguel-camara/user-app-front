@@ -65,17 +65,33 @@
       <form-error-label [control]="userForm.get('username')!" />
     </fieldset>
   </div>
+  @if (user().id !== 'new') {
+    <div class="col-span-1">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">Contraseña</legend>
+        <input
+          class="input"
+          [class.border-red-500]="userForm.get('password')?.errors ?? false"
+          formControlName="password"
+          type="password"
+          placeholder="Contraseña"
+        />
+        <form-error-label [control]="userForm.get('password')!" />
+      </fieldset>
+    </div>
+  }
   <div class="col-span-1">
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Contraseña</legend>
-      <input
-        class="input"
-        [class.border-red-500]="userForm.get('password')?.errors ?? false"
-        formControlName="password"
-        type="password"
-        placeholder="Contraseña"
-      />
-      <form-error-label [control]="userForm.get('password')!" />
+    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+      <legend class="fieldset-legend">Admin</legend>
+      <label class="label">
+        <input
+          type="checkbox"
+          class="checkbox"
+          [checked]="userForm.get('admin')?.value"
+          formControlName="admin"
+        />
+        Administrador
+      </label>
     </fieldset>
   </div>
 </form>

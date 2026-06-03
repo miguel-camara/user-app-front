@@ -21,17 +21,25 @@
         tabindex="-1"
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
       >
-        <li><a [routerLink]="['/users']">Home</a></li>
+        <li><a routerLink="/users">Home</a></li>
         <li>
-          <a [routerLink]="['/users/new']">New User</a>
+          <a routerLink="/users/new">New User</a>
         </li>
       </ul>
     </div>
   </div>
   <div class="navbar-center">
-    <a class="btn btn-ghost text-xl" routerLinkActive="link-primary" [routerLink]="['/users']"
+    <a class="btn btn-ghost text-xl" routerLinkActive="link-primary" routerLink="/users"
       >Usuarios</a
     >
   </div>
-  <div class="navbar-end"></div>
+  <div class="navbar-end">
+    @if (authService.isAuthenticated()) {
+      <button class="btn btn-ghost" (click)="authService.logout()" routerLink="/auth/login">
+        Logout
+      </button>
+    } @else {
+      <button class="btn btn-ghost" routerLink="/auth/login">Login</button>
+    }
+  </div>
 </nav>

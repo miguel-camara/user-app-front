@@ -1,12 +1,13 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { FormErrorLabel } from '../../../../shared/form-error-label/form-error-label';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../../../interfaces/user.interface';
+import { Role, User } from '../../../interfaces/user.interface';
 import { Router } from '@angular/router';
 import { FormUtils } from '../../../../utils/form-utils';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { AlertService } from '../../../../services/alert.service';
+import id from '@angular/common/locales/id';
 
 @Component({
   selector: 'app-user-form-detail',
@@ -29,14 +30,21 @@ export class UserFormDetail {
     email: ['', [Validators.required, Validators.pattern(FormUtils.emailPattern)]],
     username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
     password: ['', [Validators.required, Validators.minLength(5)]],
+    admin: [false],
   });
 
   ngOnInit(): void {
     this.setFormValue(this.user());
+
+    console.log(this.user());
   }
 
   setFormValue(formLike: Partial<User>) {
     this.userForm.reset(this.user() as any);
+    const role = this.user().roles.find((role) => role.name === 'ROLE_ADMIN');
+    const isAdmin = role ? true : false;
+
+    this.userForm.patchValue({ admin: isAdmin });
   }
 
   async onSubmit() {

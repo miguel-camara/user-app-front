@@ -7,6 +7,7 @@ import { Loading } from '../../../shared/loading/loading';
 import { firstValueFrom } from 'rxjs';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { Pagination } from '../../shared/pagination/pagination';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'user',
@@ -17,6 +18,7 @@ export class UserComponent {
   alertService = inject(AlertService);
   userService = inject(UserService);
   paginationService = inject(PaginationService);
+  authService = inject(AuthService);
 
   userResource = rxResource({
     params: () => ({

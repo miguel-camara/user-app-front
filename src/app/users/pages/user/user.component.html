@@ -17,24 +17,35 @@
           <th>lastname</th>
           <th>email</th>
           <th>username</th>
-          <th>remove</th>
-          <th>update</th>
+          @if (authService.isAdmin()) {
+            <th>remove</th>
+            <th>update</th>
+          }
         </tr>
       </thead>
       <tbody>
         @for (user of userResource.value().content; track $index) {
-          <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.lastname }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.username }}</td>
-            <td>
-              <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">remove</button>
-            </td>
-            <td>
-              <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id]">update</button>
-            </td>
-          </tr>
+          @if (user.email !== authService.email()) {
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.lastname }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.username }}</td>
+
+              @if (authService.isAdmin()) {
+                <td>
+                  <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">
+                    remove
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id]">
+                    update
+                  </button>
+                </td>
+              }
+            </tr>
+          }
         }
       </tbody>
     </table>

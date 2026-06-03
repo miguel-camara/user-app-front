@@ -14,7 +14,7 @@ export class UserService {
 
   findAll(page: number = 0): Observable<UserPage> {
     return this.#http
-      .get<UserPage>(`${url}`, {
+      .get<UserPage>(`${url}/api/users`, {
         params: {
           page: page,
           size: 3,
@@ -23,7 +23,9 @@ export class UserService {
       })
       .pipe(
         catchError((err) => {
-          return throwError(() => new Error(err));
+          console.log(err);
+
+          return throwError(() => new Error(JSON.stringify(err.error)));
         }),
       );
   }
@@ -37,36 +39,46 @@ export class UserService {
         email: '',
         username: '',
         password: '',
+        roles: [],
+        admin: false,
       });
     }
 
-    return this.#http.get<User>(`${url}/${id}`).pipe(
+    return this.#http.get<User>(`${url}/api/users/${id}`).pipe(
       catchError((err) => {
-        return throwError(() => new Error(err.error.error));
+        console.log(err);
+
+        return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
   }
 
   create(user: Partial<User>): Observable<User> {
-    return this.#http.post<User>(`${url}`, user).pipe(
+    return this.#http.post<User>(`${url}/api/users`, user).pipe(
       catchError((err) => {
-        return throwError(() => new Error(err.error.error));
+        console.log(err);
+
+        return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
   }
 
   update(user: Partial<User>, id: string): Observable<User> {
-    return this.#http.put<User>(`${url}/${id}`, user).pipe(
+    return this.#http.put<User>(`${url}/api/users/${id}`, user).pipe(
       catchError((err) => {
-        return throwError(() => new Error(err));
+        console.log(err);
+
+        return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
   }
 
   deleteById(id: string): Observable<User> {
-    return this.#http.delete<User>(`${url}/${id}`).pipe(
+    return this.#http.delete<User>(`${url}/api/users/${id}`).pipe(
       catchError((err) => {
-        return throwError(() => new Error(err));
+        console.log(err);
+
+        return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
   }
