@@ -20,16 +20,11 @@
   </label>
 
   <button type="submit" class="btn btn-secondary rounded-lg">Login</button>
-
-  <p class="text-slate-700">
-    ¿No tienes cuenta?
-    <a routerLink="/auth/register" class="text-secondary">Crea una aquí</a>
-  </p>
 </form>
 
 <!-- @if (false) { -->
 @if (hasError()) {
-  <div role="alert" class="alert alert-error animate-fadeIn fixed bottom-5 right-5 w-52">
+  <div role="alert" class="alert alert-error animate-fadeIn fixed bottom-5 right-5 w-82">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6 shrink-0 stroke-current"

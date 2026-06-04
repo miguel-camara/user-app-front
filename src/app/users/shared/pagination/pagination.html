@@ -1,18 +1,13 @@
-<!-- checked="checked" -->
+<!-- @if (activePage() > pages()) {
+  <div [routerLink]="[]" [queryParams]="{ page: 1 }">
+    <p>Error</p>
+  </div>
+} @else { -->
 <div class="flex justify-center join space-x-2">
-  @for (page of getPagesList(); track page) {
-    <input
-      title="Page"
-      class="join-item btn btn-square"
-      [checked]="page - 1 === activePage()"
-      type="radio"
-      name="options"
-      [aria-label]="page"
-      [queryParams]="{ page: page }"
-      (click)="activePage.set(page)"
-      [routerLink]="[]"
-    />
-  } @empty {
-    <p>No hay páginas</p>
-  }
+  <div class="join gap-2">
+    <button (click)="before()" class="join-item btn" [disabled]="activePage() === 1">«</button>
+    <button class="join-item btn">Pagina {{ activePage() }}</button>
+    <button (click)="next()" class="join-item btn" [disabled]="pages() === activePage()">»</button>
+  </div>
 </div>
+<!-- } -->

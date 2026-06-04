@@ -1,42 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
-// import { rxResource } from '@angular/core/rxjs-interop';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthResponse } from '../interfaces/auth-response.interface';
 
-// import { AuthResponse } from '@auth/interfaces/auth-response.interface';
-// import { User } from '@auth/interfaces/user.interface';
-// import { environment } from '@environment/environment';
-
-type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 const baseUrl = environment.baseUrl;
 
 interface Payload {
   isAuth: boolean;
   isAdmin: boolean;
+  exp: number;
   email: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // private _authStatus = signal<AuthStatus>('checking');
-  // private _user = signal<User | null>(null);
   private _token = signal<string | null>(sessionStorage.getItem('token'));
 
   private http = inject(HttpClient);
 
-  // private _user: Payload = {
-  //   isAuth: false,
-  //   isAdmin: false,
-  //   email: '',
-  // };
-
-  private _user = signal<Payload>({
-    isAuth: false,
-    isAdmin: false,
-    email: '',
-  });
+  private _user = signal<Payload | null>(JSON.parse(sessionStorage.getItem('login')!));
 
   login(email: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${baseUrl}/login`, { email, password }).pipe(
@@ -46,11 +29,9 @@ export class AuthService {
   }
 
   private handleAuthSuccess({ token, email }: AuthResponse) {
-    // this._user.set(user);
-    // this._authStatus.set('authenticated');
     const payload: any = JSON.parse(atob(token.split('.')[1]));
     this._token.set(token);
-    this._user.set({ email, isAuth: true, isAdmin: payload.isAdmin! });
+    this._user.set({ email, isAuth: true, isAdmin: payload.isAdmin!, exp: payload.exp! });
 
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('login', JSON.stringify(this._user()));
@@ -65,11 +46,25 @@ export class AuthService {
     return of(false);
   }
 
-  // user = computed(() => this._user());
-  token = computed(() => this._token());
-  isAdmin = computed(() => this._user().isAdmin);
-  isAuthenticated = computed(() => this._user().isAuth);
-  email = computed(() => this._user().email);
+  isTokenExpired(): boolean {
+    if (!this._user()) return true;
+    if (!this.token()) return true;
+    const exp = this._user()!.exp;
+    const now = new Date().getTime() / 1000;
+    if (now > exp) {
+      this.logout();
+      return true;
+    }
+    return false;
+  }
+
+  user = computed(() => {
+    return this._user();
+  });
+
+  token = computed(() => {
+    return this._token();
+  });
 
   logout() {
     this._token.set(null);
@@ -77,26 +72,9 @@ export class AuthService {
       isAuth: false,
       isAdmin: false,
       email: '',
+      exp: 0,
     });
     sessionStorage.removeItem('login');
     sessionStorage.removeItem('token');
-
-    //   this._authStatus.set('not-authenticated');
   }
-
-  // private authResponseCache = new Map<string, AuthResponse>();
-
-  // authStatus = computed<AuthStatus>(() => {
-  //   if (this._authStatus() === 'checking') return 'checking';
-
-  //   if (this._user()) {
-  //     return 'authenticated';
-  //   }
-
-  //   return 'not-authenticated';
-  // });
-
-  // user = computed(() => this._user());
-  // token = computed(this._token);
-  // isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false);
 }

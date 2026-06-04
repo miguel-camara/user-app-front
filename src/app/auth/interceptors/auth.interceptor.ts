@@ -3,12 +3,10 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  const token = inject(AuthService).token();
+  const auth = inject(AuthService);
+  const token = auth.token();
 
-  console.log(token);
-
-  if (token !== null) {
-    console.log('IF............');
+  if (!auth.isTokenExpired()) {
     const newReq = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${token}`),
     });

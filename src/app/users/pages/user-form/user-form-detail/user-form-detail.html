@@ -65,7 +65,7 @@
       <form-error-label [control]="userForm.get('username')!" />
     </fieldset>
   </div>
-  @if (user().id !== 'new') {
+  @if (user().id === 'new') {
     <div class="col-span-1">
       <fieldset class="fieldset">
         <legend class="fieldset-legend">Contraseña</legend>

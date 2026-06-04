@@ -34,7 +34,7 @@
     >
   </div>
   <div class="navbar-end">
-    @if (authService.isAuthenticated()) {
+    @if (authService.user()?.isAuth) {
       <button class="btn btn-ghost" (click)="authService.logout()" routerLink="/auth/login">
         Logout
       </button>

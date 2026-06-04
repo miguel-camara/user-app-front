@@ -17,7 +17,7 @@ export class UserService {
       .get<UserPage>(`${url}/api/users`, {
         params: {
           page: page,
-          size: 3,
+          size: 25,
           sort: 'name,asc',
         },
       })
@@ -46,9 +46,7 @@ export class UserService {
 
     return this.#http.get<User>(`${url}/api/users/${id}`).pipe(
       catchError((err) => {
-        console.log(err);
-
-        return throwError(() => new Error(JSON.stringify(err.error)));
+        return throwError(() => new Error(err.error?.error ?? 'null'));
       }),
     );
   }
@@ -56,8 +54,6 @@ export class UserService {
   create(user: Partial<User>): Observable<User> {
     return this.#http.post<User>(`${url}/api/users`, user).pipe(
       catchError((err) => {
-        console.log(err);
-
         return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );

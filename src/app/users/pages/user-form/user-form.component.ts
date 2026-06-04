@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UserFormDetail } from './user-form-detail/user-form-detail';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -9,7 +9,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'user-form',
-  imports: [UserFormDetail, Loading],
+  imports: [UserFormDetail, Loading, RouterLink],
   templateUrl: './user-form.component.html',
 })
 export class UserFormComponent {

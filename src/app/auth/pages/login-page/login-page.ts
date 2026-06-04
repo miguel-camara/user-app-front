@@ -32,31 +32,15 @@ export class LoginPage {
 
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email!, password!).subscribe({
-      next: (response: boolean) => {
-        this.router.navigate(['/users']);
-      },
-      error: (error: any) => {
-        // if (error.status == 401) {
-        // Swal.fire('Error en el Login', error.error.message, 'error')
-        console.log('Ocurrio un error', error);
-
-        // } else {
-        //   throw error;
-        // }
-      },
+    this.authService.login(email!, password!).subscribe((res) => {
+      if (res) {
+        this.router.navigateByUrl('/users');
+      } else {
+        this.hasError.set(true);
+        setTimeout(() => {
+          this.hasError.set(false);
+        }, 2000);
+      }
     });
-
-    // this.authService.login(email!, password!).subscribe(isAuthenticated => {
-    //   if (isAuthenticated) {
-    //     this.router.navigateByUrl('/');
-    //     return;
-    //   }
-    //   this.hasError.set(true);
-    //   setTimeout(() => {
-    //     this.hasError.set(false);
-    //   }, 2000);
-
-    // })
   }
 }
