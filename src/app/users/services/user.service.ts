@@ -12,6 +12,25 @@ const url: string = environment.baseUrl;
 export class UserService {
   #http = inject(HttpClient);
 
+  findAllList(page: number = 0, email: string = ''): Observable<UserPage> {
+    return this.#http
+      .get<UserPage>(`${url}/api/users/list`, {
+        params: {
+          email: email,
+          page: page,
+          size: 25,
+          sort: 'name,asc',
+        },
+      })
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+
+          return throwError(() => new Error(JSON.stringify(err.error)));
+        }),
+      );
+  }
+
   findAll(page: number = 0): Observable<UserPage> {
     return this.#http
       .get<UserPage>(`${url}/api/users`, {
@@ -69,10 +88,10 @@ export class UserService {
     );
   }
 
-  deleteById(id: string): Observable<User> {
-    return this.#http.delete<User>(`${url}/api/users/${id}`).pipe(
+  deleteById(id: string): Observable<string> {
+    return this.#http.delete<string>(`${url}/api/users/${id}`).pipe(
       catchError((err) => {
-        console.log(err);
+        console.log(err.error);
 
         return throwError(() => new Error(JSON.stringify(err.error)));
       }),

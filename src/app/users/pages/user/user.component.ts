@@ -23,15 +23,19 @@ export class UserComponent {
   userResource = rxResource({
     params: () => ({
       page: this.paginationService.currentPage() - 1,
+      email: this.authService.user()?.email,
     }),
     stream: ({ params }) => {
-      return this.userService.findAll(params.page);
+      return this.userService.findAllList(params.page, params.email);
+      // return this.userService.findAll(params.page);
     },
   });
 
   title = signal<string>('Listado de usuarios!');
 
   async onRemoveUser(id: string): Promise<void> {
+    console.log(id);
+
     const res = await this.alertService.open({
       type: 'error',
       message: 'Esta acción no se podra deshacer',
@@ -44,20 +48,26 @@ export class UserComponent {
       showConfirmButton: true,
     });
     if (res) {
-      const r = await firstValueFrom(this.userService.deleteById(id));
-
-      this.alertService.open({
-        type: 'success',
-        autoClose: true,
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 1000,
-        title: 'Eliminado',
-        message: `Usuario eliminado ${r.id}`,
+      this.userService.deleteById(id).subscribe({
+        next: async (val) => {
+          this.alertService.open({
+            type: 'success',
+            autoClose: true,
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1000,
+            title: 'Eliminado',
+            message: `Usuario eliminado`,
+          });
+          const users = await firstValueFrom(
+            this.userService.findAllList(0, this.authService.user()?.email),
+          );
+          this.userResource.set(users);
+        },
+        error: () => {
+          console.log('Ocurrio un error');
+        },
       });
     }
-
-    const users = await firstValueFrom(this.userService.findAll());
-    this.userResource.set(users);
   }
 }

@@ -11,6 +11,10 @@ export class Pagination {
   currentPage = input<number>(1);
   activePage = linkedSignal(this.currentPage);
 
+  getPagesList = computed(() => {
+    return Array.from({ length: this.pages() }, (_, i) => i + 1);
+  });
+
   router = inject(Router);
 
   next(): number {
@@ -35,5 +39,13 @@ export class Pagination {
     });
 
     return this.activePage();
+  }
+
+  navigate(page: number) {
+    this.activePage.set(page);
+
+    this.router.navigate(['/users'], {
+      queryParams: { page: this.activePage() },
+    });
   }
 }

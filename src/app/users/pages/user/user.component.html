@@ -28,27 +28,25 @@
         </thead>
         <tbody>
           @for (user of userResource.value().content; track $index) {
-            @if (user.email !== authService.user()?.email) {
-              <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.username }}</td>
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.lastname }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.username }}</td>
 
-                @if (authService.user()?.isAdmin) {
-                  <td>
-                    <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">
-                      remove
-                    </button>
-                  </td>
-                  <td>
-                    <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id]">
-                      update
-                    </button>
-                  </td>
-                }
-              </tr>
-            }
+              @if (authService.user()?.isAdmin) {
+                <td>
+                  <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">
+                    remove
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id!]">
+                    update
+                  </button>
+                </td>
+              }
+            </tr>
           }
         </tbody>
       </table>

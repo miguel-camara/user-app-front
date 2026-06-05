@@ -25,6 +25,7 @@ export class UserFormComponent {
       id: this.userId(),
     }),
     stream: ({ params }) => {
+      console.log(params);
       return this.userService.findById(params.id);
     },
   });

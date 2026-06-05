@@ -1,13 +1,20 @@
-<!-- @if (activePage() > pages()) {
-  <div [routerLink]="[]" [queryParams]="{ page: 1 }">
-    <p>Error</p>
-  </div>
-} @else { -->
 <div class="flex justify-center join space-x-2">
   <div class="join gap-2">
     <button (click)="before()" class="join-item btn" [disabled]="activePage() === 1">«</button>
-    <button class="join-item btn">Pagina {{ activePage() }}</button>
+
+    <details class="join-item dropdown">
+      <summary class="btn m-1">Página {{ activePage() }}</summary>
+      <ul class="menu dropdown-content bg-base-100 rounded-box z-1 p-2 shadow-sm">
+        @for (page of getPagesList(); track page) {
+          @if (page !== activePage()) {
+            <li>
+              <a (click)="navigate(page)">Página {{ page }}</a>
+            </li>
+          }
+        }
+      </ul>
+    </details>
+
     <button (click)="next()" class="join-item btn" [disabled]="pages() === activePage()">»</button>
   </div>
 </div>
-<!-- } -->
