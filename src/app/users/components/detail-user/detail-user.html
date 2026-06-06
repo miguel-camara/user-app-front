@@ -1,0 +1,55 @@
+<div
+  class="fixed inset-0 bg-gray-400/40 flex justify-center items-center z-50"
+  (click)="onBackdropClick()"
+>
+  <div
+    class="bg-gray-900 p-[24px] rounded-xl min-w-[700px] max-w-[700px] shadow-2xl"
+    (click)="$event.stopPropagation()"
+  >
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="col-span-full">
+        <h1 class="text-2xl ml-8 font-bold text-center">Detalles de Usuario</h1>
+        <div class="divider"></div>
+      </div>
+      <div class="col-span-1">
+        <fieldset class="fieldset" disabled>
+          <legend class="fieldset-legend">Nombre</legend>
+          <input class="input" type="text" placeholder="nombre" [value]="user().name" />
+        </fieldset>
+      </div>
+      <div class="col-span-1">
+        <fieldset class="fieldset" disabled>
+          <legend class="fieldset-legend">Apellido</legend>
+          <input class="input" type="text" placeholder="Apellido" [value]="user().lastname" />
+        </fieldset>
+      </div>
+      <div class="col-span-1">
+        <fieldset class="fieldset" disabled>
+          <legend class="fieldset-legend">Correo</legend>
+          <input class="input" type="email" placeholder="Correo" [value]="user().email" />
+        </fieldset>
+      </div>
+      <div class="col-span-1">
+        <fieldset class="fieldset" disabled>
+          <legend class="fieldset-legend">Nombre de Usuario</legend>
+          <input class="input" type="text" placeholder="Nombre de Usuario" [value]="user().email" />
+        </fieldset>
+      </div>
+      <div class="col-span-1">
+        <fieldset class="fieldset" disabled>
+          <legend class="fieldset-legend">Admin</legend>
+          <label class="label">
+            <input type="checkbox" [checked]="user().admin" class="checkbox checkbox-success" />
+            Administrador
+          </label>
+        </fieldset>
+      </div>
+      <div class="col-span-full">
+        <div class="flex justify-end">
+          <button type="button" (click)="accept.emit()" class="btn btn-success">Cerrar</button>
+        </div>
+      </div>
+    </form>
+    <div class="flex gap-3 mt-5"></div>
+  </div>
+</div>

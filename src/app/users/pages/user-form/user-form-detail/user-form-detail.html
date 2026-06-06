@@ -81,12 +81,12 @@
     </div>
   }
   <div class="col-span-1">
-    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+    <fieldset class="fieldset">
       <legend class="fieldset-legend">Admin</legend>
       <label class="label">
         <input
           type="checkbox"
-          class="checkbox"
+          class="checkbox checkbox-success"
           [checked]="userForm.get('admin')?.value"
           formControlName="admin"
         />

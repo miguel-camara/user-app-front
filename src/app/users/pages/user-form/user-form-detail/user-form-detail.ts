@@ -1,13 +1,13 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { FormErrorLabel } from '../../../../shared/form-error-label/form-error-label';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Role, User } from '../../../interfaces/user.interface';
+import { User } from '../../../interfaces/user.interface';
 import { Router } from '@angular/router';
-import { FormUtils } from '../../../../utils/form-utils';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../../services/user.service';
-import { AlertService } from '../../../../services/alert.service';
-import id from '@angular/common/locales/id';
+import { FormErrorLabel } from '../../../../shared/components/form-error-label/form-error-label';
+import { AlertService } from '../../../../shared/services/alert.service';
+import { FormUtils } from '../../../../shared/utils/form-utils';
+import { DetailUserService } from '../../../components/detail-user/detail-user.service';
 
 @Component({
   selector: 'app-user-form-detail',
@@ -35,16 +35,10 @@ export class UserFormDetail {
 
   ngOnInit(): void {
     this.setFormValue(this.user());
-
-    console.log(this.user());
   }
 
   setFormValue(formLike: Partial<User>) {
     this.userForm.reset(this.user() as any);
-    const role = this.user().roles.find((role) => role.name === 'ROLE_ADMIN');
-    const isAdmin = role ? true : false;
-
-    this.userForm.patchValue({ admin: isAdmin });
   }
 
   async onSubmit() {
@@ -60,7 +54,6 @@ export class UserFormDetail {
 
     if (this.user().id === 'new') {
       // Crear Product
-
       this.userService.create(userLike).subscribe({
         next: (user) => {
           this.wasSaved.set(true);

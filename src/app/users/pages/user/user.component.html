@@ -1,6 +1,5 @@
 @if (userResource.hasValue()) {
   @if (userResource.value().content.length !== 0) {
-    <!-- @if (!(userResource.value().number + 1 > userResource.value().totalPages)) { -->
     <h3 class="text-3xl text-center font-bold">{{ title() }}</h3>
     <div class="flex flex-col sm:flex-row justify-between items-center my-3 gap-3">
       <app-pagination
@@ -13,43 +12,60 @@
     </div>
 
     <div class="overflow-x-auto">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>lastname</th>
-            <th>email</th>
-            <th>username</th>
-            @if (authService.user()?.isAdmin) {
-              <th>remove</th>
-              <th>update</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (user of userResource.value().content; track $index) {
+      <div class="flex justify-center">
+        <table class="table">
+          <thead>
             <tr>
-              <td>{{ user.name }}</td>
-              <td>{{ user.lastname }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.username }}</td>
-
-              @if (authService.user()?.isAdmin) {
-                <td>
-                  <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">
-                    remove
-                  </button>
-                </td>
-                <td>
-                  <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id!]">
-                    update
-                  </button>
-                </td>
+              <th>name</th>
+              <th>lastname</th>
+              <th>username</th>
+              @if (authService.user()?.isAuth) {
+                <th class="w-50" [class.w-85]="authService.user()?.isAdmin"></th>
               }
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (user of userResource.value().content; track $index) {
+              <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+
+                @if (authService.user()?.isAuth) {
+                  <th class="flex gap-3">
+                    @if (authService.user()?.isAdmin) {
+                      <button class="btn btn-error btn-sm" (click)="onRemoveUser(user.id!)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" viewBox="0 0 640 640">
+                          <path
+                            d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+                          />
+                        </svg>
+                        remove
+                      </button>
+                      <button class="btn btn-info btn-sm" [routerLink]="['/users', user.id!]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" viewBox="0 0 640 640">
+                          <path
+                            d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"
+                          />
+                        </svg>
+                        update
+                      </button>
+                    }
+                    <button class="btn btn-warning btn-sm" (click)="detailService.open(user)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" viewBox="0 0 640 640">
+                        <path
+                          d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM288 224C288 206.3 302.3 192 320 192C337.7 192 352 206.3 352 224C352 241.7 337.7 256 320 256C302.3 256 288 241.7 288 224zM280 288L328 288C341.3 288 352 298.7 352 312L352 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L280 448C266.7 448 256 437.3 256 424C256 410.7 266.7 400 280 400L304 400L304 336L280 336C266.7 336 256 325.3 256 312C256 298.7 266.7 288 280 288z"
+                        />
+                      </svg>
+                      details
+                    </button>
+                  </th>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   } @else {
     <div class="flex flex-col justify-center items-center gap-3 h-96">

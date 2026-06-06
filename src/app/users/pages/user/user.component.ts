@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { AlertService } from '../../../services/alert.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
-import { Loading } from '../../../shared/loading/loading';
 import { firstValueFrom } from 'rxjs';
-import { PaginationService } from '../../shared/pagination/pagination.service';
-import { Pagination } from '../../shared/pagination/pagination';
 import { AuthService } from '../../../auth/services/auth.service';
+import { AlertService } from '../../../shared/services/alert.service';
+import { Loading } from '../../../shared/components/loading/loading';
+import { Pagination } from '../../components/pagination/pagination';
+import { PaginationService } from '../../components/pagination/pagination.service';
+import { DetailUserService } from '../../components/detail-user/detail-user.service';
 
 @Component({
   selector: 'user',
@@ -19,6 +20,7 @@ export class UserComponent {
   userService = inject(UserService);
   paginationService = inject(PaginationService);
   authService = inject(AuthService);
+  detailService = inject(DetailUserService);
 
   userResource = rxResource({
     params: () => ({
@@ -27,15 +29,12 @@ export class UserComponent {
     }),
     stream: ({ params }) => {
       return this.userService.findAllList(params.page, params.email);
-      // return this.userService.findAll(params.page);
     },
   });
 
   title = signal<string>('Listado de usuarios!');
 
   async onRemoveUser(id: string): Promise<void> {
-    console.log(id);
-
     const res = await this.alertService.open({
       type: 'error',
       message: 'Esta acción no se podra deshacer',
@@ -48,26 +47,21 @@ export class UserComponent {
       showConfirmButton: true,
     });
     if (res) {
-      this.userService.deleteById(id).subscribe({
-        next: async (val) => {
-          this.alertService.open({
-            type: 'success',
-            autoClose: true,
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 1000,
-            title: 'Eliminado',
-            message: `Usuario eliminado`,
-          });
-          const users = await firstValueFrom(
-            this.userService.findAllList(0, this.authService.user()?.email),
-          );
-          this.userResource.set(users);
-        },
-        error: () => {
-          console.log('Ocurrio un error');
-        },
+      await firstValueFrom(this.userService.deleteById(id));
+      await this.alertService.open({
+        type: 'success',
+        autoClose: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1000,
+        title: 'Eliminado',
+        message: `Usuario eliminado`,
       });
+
+      const users = await firstValueFrom(
+        this.userService.findAllList(0, this.authService.user()?.email),
+      );
+      this.userResource.set(users);
     }
   }
 }

@@ -36,8 +36,6 @@ export class AuthService {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('login', JSON.stringify(this._user()));
 
-    console.log(payload);
-
     return true;
   }
 

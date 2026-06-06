@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { ModalConfig } from '../interfaces/custom.interafce';
-import { Alert } from '../shared/alert/alert';
+import { Alert } from '../components/alert/alert';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {

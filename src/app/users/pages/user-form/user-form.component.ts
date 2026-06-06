@@ -4,8 +4,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { Loading } from '../../../shared/loading/loading';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Loading } from '../../../shared/components/loading/loading';
 
 @Component({
   selector: 'user-form',
@@ -25,7 +25,6 @@ export class UserFormComponent {
       id: this.userId(),
     }),
     stream: ({ params }) => {
-      console.log(params);
       return this.userService.findById(params.id);
     },
   });

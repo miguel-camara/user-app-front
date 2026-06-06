@@ -1,6 +1,5 @@
 import { Component, computed, inject, input, linkedSignal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { UserPage } from '../../interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -18,7 +17,6 @@ export class Pagination {
   router = inject(Router);
 
   next(): number {
-    console.log('Next');
 
     if (this.activePage() === this.pages()) return this.activePage();
     this.activePage.update((val) => val + 1);

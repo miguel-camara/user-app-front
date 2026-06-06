@@ -24,8 +24,6 @@ export class UserService {
       })
       .pipe(
         catchError((err) => {
-          console.log(err);
-
           return throwError(() => new Error(JSON.stringify(err.error)));
         }),
       );
@@ -42,8 +40,6 @@ export class UserService {
       })
       .pipe(
         catchError((err) => {
-          console.log(err);
-
           return throwError(() => new Error(JSON.stringify(err.error)));
         }),
       );
@@ -81,8 +77,6 @@ export class UserService {
   update(user: Partial<User>, id: string): Observable<User> {
     return this.#http.put<User>(`${url}/api/users/${id}`, user).pipe(
       catchError((err) => {
-        console.log(err);
-
         return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
@@ -91,8 +85,6 @@ export class UserService {
   deleteById(id: string): Observable<string> {
     return this.#http.delete<string>(`${url}/api/users/${id}`).pipe(
       catchError((err) => {
-        console.log(err.error);
-
         return throwError(() => new Error(JSON.stringify(err.error)));
       }),
     );
