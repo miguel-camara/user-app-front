@@ -23,6 +23,7 @@ export class UserFormComponent {
   userResource = rxResource({
     params: () => ({
       id: this.userId(),
+      update: this.authService.user()?.isAdmin,
     }),
     stream: ({ params }) => {
       return this.userService.findById(params.id);

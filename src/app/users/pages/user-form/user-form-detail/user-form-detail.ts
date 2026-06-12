@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { FormErrorLabel } from '../../../../shared/components/form-error-label/form-error-label';
-import { AlertService } from '../../../../shared/services/alert.service';
+import { AlertService } from '../../../../shared/components/alert/alert.service';
 import { FormUtils } from '../../../../shared/utils/form-utils';
-import { DetailUserService } from '../../../components/detail-user/detail-user.service';
 
 @Component({
   selector: 'app-user-form-detail',
@@ -58,21 +57,16 @@ export class UserFormDetail {
         next: (user) => {
           this.wasSaved.set(true);
           this.alertService.open({
-            type: 'success',
-            showCancelButton: false,
             showConfirmButton: false,
             message: 'Creado con exito',
             title: 'Creado',
             autoClose: true,
-            timer: 500,
           });
           this.router.navigate(['/users', user.id]);
         },
         error: (err) => {
           this.alertService.open({
             type: 'error',
-            showCancelButton: false,
-            showConfirmButton: true,
             message: err,
             title: 'Error',
           });
@@ -84,13 +78,10 @@ export class UserFormDetail {
 
       await firstValueFrom(this.userService.update(userLike, this.user().id!));
       await this.alertService.open({
-        type: 'success',
-        showCancelButton: false,
         showConfirmButton: false,
         message: 'Actualizado con exito',
         title: 'Actualizado',
         autoClose: true,
-        timer: 500,
       });
     }
 

@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
-import { AlertService } from '../../../shared/services/alert.service';
+import { AlertService } from '../../../shared/components/alert/alert.service';
 import { Loading } from '../../../shared/components/loading/loading';
 import { Pagination } from '../../components/pagination/pagination';
 import { PaginationService } from '../../components/pagination/pagination.service';
@@ -39,28 +39,29 @@ export class UserComponent {
       type: 'error',
       message: 'Esta acción no se podra deshacer',
       title: 'Eliminar',
-      autoClose: false,
       cancelText: 'Cancelar',
       confirmText: 'Eliminar',
       position: 'row',
       showCancelButton: true,
-      showConfirmButton: true,
+      closeOnBackdrop: false,
     });
     if (res) {
       await firstValueFrom(this.userService.deleteById(id));
       await this.alertService.open({
-        type: 'success',
         autoClose: true,
-        showCancelButton: false,
         showConfirmButton: false,
-        timer: 1000,
         title: 'Eliminado',
         message: `Usuario eliminado`,
+        timer: 2000,
       });
 
       const users = await firstValueFrom(
-        this.userService.findAllList(0, this.authService.user()?.email),
+        this.userService.findAllList(
+          this.paginationService.currentPage() - 1,
+          this.authService.user()?.email,
+        ),
       );
+
       this.userResource.set(users);
     }
   }

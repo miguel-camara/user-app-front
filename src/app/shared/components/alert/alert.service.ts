@@ -5,8 +5,8 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
-import { ModalConfig } from '../interfaces/custom.interafce';
-import { Alert } from '../components/alert/alert';
+import { ModalConfig } from '../../interfaces/custom.interafce';
+import { Alert } from './alert';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
@@ -20,20 +20,19 @@ export class AlertService {
       });
 
       componentRef.setInput('config', {
-        type: 'info',
-
+        type: 'success',
         closeOnBackdrop: true,
-
         showConfirmButton: true,
-
+        confirmText: 'Aceptar',
         showCancelButton: false,
-
-        timer: 3000,
-
+        cancelText: 'Cancelar',
+        autoClose: false,
+        timer: 2500,
         position: 'column',
-
+        title: 'Completado',
+        message: 'Operación realizada con éxito',
         ...config,
-      });
+      } as ModalConfig);
 
       componentRef.instance.confirm.subscribe(() => {
         resolve(true);

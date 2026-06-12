@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (user of userResource.value().content; track $index) {
+            @for (user of userResource.value().content; track user.id) {
               <tr>
                 <td>{{ user.name }}</td>
                 <td>{{ user.lastname }}</td>
