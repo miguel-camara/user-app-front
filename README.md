@@ -1,59 +1,66 @@
 # UserAppFront
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.6.
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg" height="50" alt="angular logo"/>&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" height="50" alt="tailwindcss logo" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws logo" height="50" />
 
-## Development server
+</p>
 
-To start a local development server, run:
+**UserAppFront** crud de usuarios asi como roles y autenticación con jwt **Tailwind CSS** y **daisyUI**.
 
-```bash
-ng serve
-```
+## Run Locally
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Clone the project
 
 ```bash
-ng generate component component-name
+  git clone https://https://github.com/miguel-camara/user-app-front.git
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Go to the project directory
 
 ```bash
-ng generate --help
+  cd user-app-front
 ```
 
-## Building
-
-To build the project run:
+Install dependencies
 
 ```bash
-ng build
+  npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Start the server
 
 ```bash
-ng test
+  npm run start
 ```
 
-## Running end-to-end tests
+## Environment Variables
 
-For end-to-end (e2e) testing, run:
+To run this project, you will need to add the following environment variables to your **environment.ts** files
 
-```bash
-ng e2e
-```
+`baseUrl`
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Demo
 
-## Additional Resources
+[Demo](http://user-app-angular.s3-website.us-east-2.amazonaws.com/#/users)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Screenshots
+
+![App Screenshot](public/screens/screen-1.png)
+
+![App Screenshot](public/screens/screen-2.png)
+
+![App Screenshot](public/screens/screen-3.png)
+
+![App Screenshot](public/screens/screen-4.png)
+
+![App Screenshot](public/screens/screen-5.png)
+
+## Features
+
+- **User App Front:** Aplicación full stack usando Angular para el front, en esta manejamos protección de rutas usando guard, para el back usamos spring boot, usando spring security para la autenticación y spring JPA para la persistencia de datos.
+
+## Tech Stack
+
+**Frontend:** Angular, Tailwind CSS y daisyUI
